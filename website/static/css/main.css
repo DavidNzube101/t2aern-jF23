@@ -1,0 +1,292 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+:root {
+    --primary: #9977d4;
+    --secondary: #000000;
+}
+
+body {
+    background-color: var(--secondary);
+    color: white;
+}
+
+/* Navigation */
+.nav-toggle {
+    display: none;
+}
+
+.hamburger {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 100;
+    padding: 10px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary);
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--secondary);
+    padding: 80px 20px;
+    transition: 0.4s;
+    z-index: 99;
+    border-left: 1px solid var(--primary);
+}
+
+.nav-toggle:checked~.nav {
+    right: 0;
+}
+
+.nav-toggle:checked~.hamburger span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle:checked~.hamburger span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle:checked~.hamburger span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    background-color: var(--primary);
+    border-radius: 5px;
+}
+
+/* Main Content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.header h1 {
+    color: var(--primary);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+/* Tabs */
+.tabs {
+    margin: 20px 0;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: 2px solid var(--primary);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Upgrade Cards */
+.upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.upgrade-card {
+    background-color: rgba(153, 119, 212, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.upgrade-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(153, 119, 212, 0.3);
+}
+
+.upgrade-card h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* Counter */
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.counter button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.counter span {
+    font-size: 1.2em;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--secondary);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+    max-width: 500px;
+    width: 90%;
+}
+
+.close-modal {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 1.5em;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 1rem;
+    background-color: rgba(153, 119, 212, 0.1);
+    border: 1px solid var(--primary);
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: rgba(153, 119, 212, 0.2);
+}
+
+.faq-question .arrow {
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.faq-question.active .arrow {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--primary);
+    border-top: none;
+}
+
+.faq-answer.show {
+    max-height: 200px;
+    padding: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tab-buttons {
+        flex-direction: column;
+    }
+
+    .upgrades-grid {
+        grid-template-columns: 1fr;
+    }
+}

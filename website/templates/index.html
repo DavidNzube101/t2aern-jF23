@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypsis Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <nav class="nav">
+        <a href="#" onclick="showTab('upgrades')">Home</a>
+        <a href="#" onclick="showTab('upgrades')">Exam Upgrades</a>
+        <a href="#" onclick="showTab('history')">History</a>
+        <a href="#" onclick="showModal()">About</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="header">
+            <h1>Crypsis Dashboard</h1>
+            <p>Your Exam Score Enhancement Platform</p>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('upgrades')">Exam Upgrades</button>
+                <button class="tab-btn" onclick="showTab('history')">History</button>
+                <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
+            </div>
+
+            <!-- Upgrades Tab -->
+            <div id="upgrades" class="tab-content active">
+                <div class="upgrades-grid">
+                    <!-- Upgrade Card 1 -->
+                    <div class="upgrade-card">
+                        <h3>Mark Adder</h3>
+                        <p>Add extra marks to your exam score</p>
+                        <div class="counter">
+                            <button onclick="updateCounter(this, -1)">-</button>
+                            <span>0</span>
+                            <button onclick="updateCounter(this, 1)">+</button>
+                        </div>
+                        <p>Price: $50</p>
+                    </div>
+
+                    <!-- Upgrade Card 2 -->
+                    <div class="upgrade-card">
+                        <h3>Grade Booster</h3>
+                        <p>Boost your grade by one level</p>
+                        <div class="counter">
+                            <button onclick="updateCounter(this, -1)">-</button>
+                            <span>0</span>
+                            <button onclick="updateCounter(this, 1)">+</button>
+                        </div>
+                        <p>Price: $75</p>
+                    </div>
+
+                    <!-- Upgrade Card 3 -->
+                    <div class="upgrade-card">
+                        <h3>Score Multiplier</h3>
+                        <p>Multiply your current score</p>
+                        <div class="counter">
+                            <button onclick="updateCounter(this, -1)">-</button>
+                            <span>0</span>
+                            <button onclick="updateCounter(this, 1)">+</button>
+                        </div>
+                        <p>Price: $100</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history" class="tab-content">
+                <h2>Purchase History</h2>
+                <p>Your previous upgrades will appear here...</p>
+            </div>
+
+            <div id="faq" class="tab-content">
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How do exam upgrades work?
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Our platform provides various upgrade options to enhance your exam scores through secure and verified methods. Each upgrade type has different effects and pricing.
+                        </div>
+                    </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Are the upgrades permanent?
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes, once an upgrade is applied to your exam score, it becomes a permanent modification in the system's records.
+                        </div>
+                    </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How secure is the platform?
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Crypsis employs state-of-the-art encryption and security measures to protect your information and ensure all transactions are completely confidential.
+                        </div>
+                    </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            What payment methods are accepted?
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            We accept various payment methods including credit cards, cryptocurrency, and secure digital payment platforms.
+                        </div>
+                    </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How long does it take to process an upgrade?
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Most upgrades are processed and applied within 24-48 hours of successful payment verification.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2>About Crypsis</h2>
+            <p>Crypsis is an innovative platform designed to help students enhance their exam scores through various upgrade options. Our system provides secure and reliable score enhancement services.</p>
+        </div>
+    </div>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

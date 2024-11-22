@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    font-size: 5rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #9977d4, #fff, #ff00ff, #00ffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #9977d4;
+}
+
+.cta-button {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    padding: 15px 40px;
+    background: #9977d4;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cta-button:hover {
+    background: #fff;
+    transform: scale(1.05);
+}
