@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypsis Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>Crypsis Admin Dashboard</h1>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active">New <span class="tab-count">13</span></button>
+            <button class="tab">Completed <span class="tab-count">17</span></button>
+        </div>
+
+        <div class="upgrade-list">
+            <!-- Upgrade Items -->
+            <div class="upgrade-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" class="checkbox" id="upgrade1">
+                    <span class="checkmark"></span>
+                </div>
+                <div>
+                    <h3>Mark Adder Upgrade</h3>
+                    <p>Student ID: STU001</p>
+                </div>
+                <span class="status status-pending">Pending</span>
+                <span>$150.00</span>
+                <button onclick="openDrawer('upgrade1')" class="page-btn">View Details</button>
+            </div>
+
+            <div class="upgrade-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" class="checkbox" id="upgrade2">
+                    <span class="checkmark"></span>
+                </div>
+                <div>
+                    <h3>Grade Booster</h3>
+                    <p>Student ID: STU002</p>
+                </div>
+                <span class="status status-pending">Pending</span>
+                <span>$250.00</span>
+                <button onclick="openDrawer('upgrade2')" class="page-btn">View Details</button>
+            </div>
+
+            <!-- More upgrade items... -->
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn">Previous</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span>...</span>
+            <button class="page-btn">Next</button>
+        </div>
+    </div>
+
+    <!-- Drawer -->
+    <div class="drawer" id="drawer">
+        <div class="drawer-handle"></div>
+        <div class="drawer-header">
+            <h2>Upgrade Details</h2>
+            <button class="close-drawer" onclick="closeDrawer()">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <div id="drawerContent">
+                <!-- Drawer content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

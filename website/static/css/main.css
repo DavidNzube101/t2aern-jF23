@@ -269,6 +269,88 @@ body {
     padding: 1rem;
 }
 
+#cart {
+    background: #000;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.cart-header {
+    margin-bottom: 24px;
+}
+
+.cart-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin: 8px 0;
+    background: rgba(153, 119, 212, 0.1);
+    border: 1px solid rgba(153, 119, 212, 0.2);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.cart-item:hover {
+    background: rgba(153, 119, 212, 0.15);
+}
+
+.cart-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cart-item-title {
+    font-weight: 500;
+    color: #fff;
+}
+
+.cart-item-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.cart-item-price {
+    font-family: 'SF Mono', monospace;
+    font-weight: 600;
+    color: #9977d4;
+}
+
+.cart-total {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-total-label {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cart-total-amount {
+    font-family: 'SF Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: #9977d4;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 48px 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {

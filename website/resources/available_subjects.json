@@ -1,0 +1,9 @@
+{
+    "MTH102": {
+        "mark adder (+15)": ["add marks to your exam score", "11000"],
+        "solution fill": ["fill your manual", "7000" ]  
+    },
+    "STA112": {
+        "grade (B)": ["get your instant b grade", "7000"]
+    }
+}

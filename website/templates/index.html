@@ -18,6 +18,7 @@
         <a href="#" onclick="showTab('upgrades')">Home</a>
         <a href="#" onclick="showTab('upgrades')">Exam Upgrades</a>
         <a href="#" onclick="showTab('history')">History</a>
+        <a href="#" onclick="showTab('cart')">Cart</a>
         <a href="#" onclick="showModal()">About</a>
     </nav>
 
@@ -33,48 +34,38 @@
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="showTab('upgrades')">Exam Upgrades</button>
                 <button class="tab-btn" onclick="showTab('history')">History</button>
+                <button class="tab-btn" onclick="showTab('cart')">Cart</button>
                 <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
             </div>
 
             <!-- Upgrades Tab -->
             <div id="upgrades" class="tab-content active">
-                <div class="upgrades-grid">
-                    <!-- Upgrade Card 1 -->
-                    <div class="upgrade-card">
-                        <h3>Mark Adder</h3>
-                        <p>Add extra marks to your exam score</p>
-                        <div class="counter">
-                            <button onclick="updateCounter(this, -1)">-</button>
-                            <span>0</span>
-                            <button onclick="updateCounter(this, 1)">+</button>
-                        </div>
-                        <p>Price: $50</p>
-                    </div>
+                {% if LengthFunc(ASC) != 0  %}
+                    {% for subject, offers in ASC.items() %}
+                        <h1>{{ subject }}</h1>
+                        <div class="upgrades-grid">
+                            
+                            {% for offer_title, offer_detail in offers.items() %}
 
-                    <!-- Upgrade Card 2 -->
-                    <div class="upgrade-card">
-                        <h3>Grade Booster</h3>
-                        <p>Boost your grade by one level</p>
-                        <div class="counter">
-                            <button onclick="updateCounter(this, -1)">-</button>
-                            <span>0</span>
-                            <button onclick="updateCounter(this, 1)">+</button>
-                        </div>
-                        <p>Price: $75</p>
-                    </div>
+                                <div class="upgrade-card">
+                                    <h3>{{ offer_title.capitalize() }}</h3>
+                                    <p>{{ offer_detail[0] }}</p>
+                                    <div class="counter">
+                                        <button onclick="updateCounter(this, -1)">-</button>
+                                        <span>0</span>
+                                        <button onclick="updateCounter(this, 1)">+</button>
+                                    </div>
+                                    <p>Price: ₦ {{ offer_detail[1] }}</p>
+                                </div>
 
-                    <!-- Upgrade Card 3 -->
-                    <div class="upgrade-card">
-                        <h3>Score Multiplier</h3>
-                        <p>Multiply your current score</p>
-                        <div class="counter">
-                            <button onclick="updateCounter(this, -1)">-</button>
-                            <span>0</span>
-                            <button onclick="updateCounter(this, 1)">+</button>
+                            {% endfor %}
+                        
                         </div>
-                        <p>Price: $100</p>
-                    </div>
-                </div>
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <p>No Upgrades for now</p>
+                {% endif %}
             </div>
 
             <!-- History Tab -->
@@ -136,6 +127,20 @@
                     </div>
                 </div>
             </div>
+
+            <div id="cart" class="tab-content">
+                <div class="cart-header">
+                    <h2>Your Cart</h2>
+                </div>
+                <div id="cart-items">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+                <div class="cart-total">
+                    <span class="cart-total-label">Total</span>
+                    <span class="cart-total-amount">₦ <span id="cart-total">0</span></span>
+                </div>
+            </div>
+            
         </div>
     </div>
 
@@ -149,5 +154,6 @@
     </div>
 
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 </body>
 </html>
