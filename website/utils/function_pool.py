@@ -6,17 +6,19 @@ import datetime as dt
 import json
 from datetime import datetime, timedelta, date
 import random
-from flask_login import login_required, current_user
 from typing import TypedDict, Dict, List, Optional
 from . import DateToolKit as dtk
 import math as Math
 from . import id_generator
 import ast
 from ..database import encrypt
+import geocoder
 
 
 def template_payload()-> dict:
     return {}
+
+
 
 def calcTimeDifference(dpt, ct):
 	return [int(x) for x in ("[" + str(datetime.strptime(dpt, "%H:%M") - datetime.strptime(ct, "%H:%M:%S")).replace(":", ", ").replace("-1 day, ", "") + "]").strip("[]").split(", ")]
@@ -35,6 +37,8 @@ def returnJSONData(title, content):
 	return jsonify({
 		"message": {title: content}
 	})
+ 
+
  
 def getDepartmentFaculty(department):
     return department
@@ -356,3 +360,24 @@ def reversed_dict(the_dict) -> dict:
         dict_of_dicts[f"{id_generator.generate_id(13)}"] = d
     
     return dict_of_dicts
+
+
+def checkLoginAndLogin(ip) -> dict | None:
+    user = isFound("UserCRPS", "ip_address", ip)
+    if user != None:
+        return dbORM.get_all("UserCRPS")[f'{isFound("UserCRPS", "ip_address", ip)}']
+    else:
+        new_user = {
+            "ip_address": geocoder.ip('me').ip,
+            "crypsis_id": id_generator.generate_id(90),
+            "school_id": "",
+            "datestamp": getDateTime()[0],
+            "timestamp": getDateTime()[1],
+            "temp": "&co;&cc;",
+            "location": f"{geocoder.ip('me').city}, {geocoder.ip('me').country}",
+            "latitude": f"{geocoder.ip('me').lat}",
+            "longitude": f"{geocoder.ip('me').lng}"
+        }
+        dbORM.add_entry("UserCRPS", encrypt.encrypter(str(new_user)))
+        
+        return dbORM.get_all("UserCRPS")[f'{isFound("UserCRPS", "ip_address", ip)}']

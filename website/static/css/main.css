@@ -350,7 +350,10 @@ body {
     padding: 48px 0;
     color: rgba(255, 255, 255, 0.6);
 }
-
+.cid-cont{
+    font-family: monospace;
+    width: 50%;
+}
 /* Animations */
 @keyframes fadeIn {
     from {

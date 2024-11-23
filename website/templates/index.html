@@ -18,6 +18,7 @@
         <a href="#" onclick="showTab('upgrades')">Home</a>
         <a href="#" onclick="showTab('upgrades')">Exam Upgrades</a>
         <a href="#" onclick="showTab('history')">History</a>
+        <a href="#" onclick="showTab('profile')">Profile</a>
         <a href="#" onclick="showTab('cart')">Cart</a>
         <a href="#" onclick="showModal()">About</a>
     </nav>
@@ -35,6 +36,7 @@
                 <button class="tab-btn active" onclick="showTab('upgrades')">Exam Upgrades</button>
                 <button class="tab-btn" onclick="showTab('history')">History</button>
                 <button class="tab-btn" onclick="showTab('cart')">Cart</button>
+                <button class="tab-btn" onclick="showTab('profile')">Profile</button>
                 <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
             </div>
 
@@ -51,9 +53,9 @@
                                     <h3>{{ offer_title.capitalize() }}</h3>
                                     <p>{{ offer_detail[0] }}</p>
                                     <div class="counter">
-                                        <button onclick="updateCounter(this, -1)">-</button>
+                                        <button onclick="updateCounter(this, -1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">-</button>
                                         <span>0</span>
-                                        <button onclick="updateCounter(this, 1)">+</button>
+                                        <button onclick="updateCounter(this, 1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">+</button>
                                     </div>
                                     <p>Price: ₦ {{ offer_detail[1] }}</p>
                                 </div>
@@ -138,6 +140,19 @@
                 <div class="cart-total">
                     <span class="cart-total-label">Total</span>
                     <span class="cart-total-amount">₦ <span id="cart-total">0</span></span>
+                </div>
+            </div>
+
+            <div id="profile" class="tab-content">
+                <div class="cart-header">
+                    <h2>Your Data</h2>
+                </div>
+                <div class="cid-cont">
+                    <p>CRYPSIS ID: <span class="cid">{{ CRYPSIS_ID }}</span></p>
+                    <p>IP ADDRESS: <span class="cid">{{ IP_ADDRESS }}</span></p>
+                    <p>LOCATION: <span class="cid">{{ LOCATION }}</span></p>
+                    <p>LATITUDE: <span class="cid">{{ LAT }}</span></p>
+                    <p>LONGITUDE: <span class="cid">{{ LNG }}</span></p>
                 </div>
             </div>
             

@@ -24,11 +24,21 @@ def returnLandingPage():
 def returnDashBoard(session_id):
     payload = function_pool.template_payload()
     
+    forwarded = request.headers.get('X-Forwarded-For')
+    client_ip = geocoder.ip('me').ip
+    
     with open("website/resources/available_subjects.json", "r") as f_:
         available_subjects = json.load(f_)
         
     payload['ASC'] = available_subjects
     payload['LengthFunc'] = len
+    payload['CRYPSIS_ID'] = function_pool.checkLoginAndLogin(client_ip)['crypsis_id']
+    payload['IP_ADDRESS'] = function_pool.checkLoginAndLogin(client_ip)['ip_address']
+    payload['LOCATION'] = function_pool.checkLoginAndLogin(client_ip)['location']
+    payload['LAT'] = function_pool.checkLoginAndLogin(client_ip)['latitude']
+    payload['LNG'] = function_pool.checkLoginAndLogin(client_ip)['longitude']
+    
+    print("Location: ", geocoder.ip('me').city, geocoder.ip('me').ok, geocoder.ip('me').ip)
     
     return render_template("index.html", **payload)
 
