@@ -164,20 +164,13 @@ async function closePaymentModalAndUpdateHistory(cid) {
     data.append("crypsis_id", cid);
     data.append("upgrade_ids", `['4efc342121', '1a9b8cde34', '6igh564343']`);
 
-    try {
-        const response = await fetch('/add-upgrade-request', {
-            method: 'POST',
-            body: data,
-        });
+    const response = await fetch('/add-upgrade-request', {
+        method: 'POST',
+        body: data,
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        location.reload();
-    } catch (error) {
-        console.error("Error:", error);
-    }
+    location.reload();
+    
 
     document.getElementById('paymentModal').style.display = 'none';
     location.reload()
