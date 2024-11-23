@@ -177,7 +177,6 @@ async function closePaymentModalAndUpdateHistory(cid) {
         location.reload();
     } catch (error) {
         console.error("Error:", error);
-        alert("Failed to mark the upgrade as done. Please try again.");
     }
 
     document.getElementById('paymentModal').style.display = 'none';
