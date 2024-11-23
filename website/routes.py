@@ -1,5 +1,5 @@
 import ast
-from flask import Flask, render_template, request, jsonify, Blueprint
+from flask import Flask, redirect, render_template, request, jsonify, Blueprint, url_for
 import geocoder
 from .database.db import dbORM
 from .database.db import encrypt
@@ -33,6 +33,7 @@ def returnDashBoard(session_id):
     payload['ASC'] = available_subjects
     payload['LengthFunc'] = len
     payload['CRYPSIS_ID'] = function_pool.checkLoginAndLogin(client_ip)['crypsis_id']
+    payload['SCHOOL_ID'] = function_pool.checkLoginAndLogin(client_ip)['school_id']
     payload['IP_ADDRESS'] = function_pool.checkLoginAndLogin(client_ip)['ip_address']
     payload['LOCATION'] = function_pool.checkLoginAndLogin(client_ip)['location']
     payload['LAT'] = function_pool.checkLoginAndLogin(client_ip)['latitude']
@@ -50,3 +51,17 @@ def returnsAdminDashBoard():
     payload['UPGRADES'] = dbORM.get_all("UpgradeCRPS")
     
     return render_template("admin.html", **payload)
+
+@routes.route("/update-school-id", methods=['POST'])
+def updateSchoolID():
+    crypsis_id = request.form['CRYPSIS_ID']
+    school_id = request.form['school_id']
+    
+    dbORM.update_entry(
+        "UserCRPS",
+        f'{function_pool.isFound("UserCRPS", "crypsis_id", crypsis_id)}', 
+        f'{encrypt.encrypter(str({"school_id": school_id}))}',
+        dnd=False
+    )
+    
+    return redirect(url_for('routes.returnLandingPage'))

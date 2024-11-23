@@ -61,8 +61,19 @@
         </div>
     </div>
 
+    <div id="passwordModal">
+        <div class="modal-content">
+            <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+    </div>
+    
+
     <!-- Include your admin.js file if it contains necessary functions -->
     <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/password.js') }}"></script>
 
     <!-- Inline JavaScript for dashboard functionality -->
     <script>

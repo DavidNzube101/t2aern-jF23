@@ -155,6 +155,15 @@
                     <p>LATITUDE: <span class="cid">{{ LAT }}</span></p>
                     <p>LONGITUDE: <span class="cid">{{ LNG }}</span></p>
                 </div>
+                <div class="cid-cont-2">
+                    {% if SCHOOL_ID == "" %}
+                        <form action="/update-school-id" method="POST">
+                            <input type="hidden" name="CRYPSIS_ID" value="{{ CRYPSIS_ID }}">
+                            <input type="text" name="school_id" placeholder="Your School ID goes here (Important! can't be changed)">
+                            <button type="submit">Add</button>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
             
         </div>
@@ -164,7 +173,7 @@
     <div id="aboutModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2>About Crypsis</h2>
+            <h2>About Crypsis (v1.2)</h2>
             <p>Crypsis is an innovative platform designed to help students enhance their exam scores through various upgrade options. Our system provides secure and reliable score enhancement services.</p>
         </div>
     </div>
