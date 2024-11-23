@@ -24,8 +24,11 @@ def returnLandingPage():
 def returnDashBoard(session_id):
     payload = function_pool.template_payload()
     
-    forwarded = request.headers.get('X-Forwarded-For')
-    client_ip = geocoder.ip('me').ip
+    try:
+        client_ip = geocoder.ip('me').ip
+    except:
+        ip_address = request.remote_addr
+        client_ip = ip_address
     
     with open("website/resources/available_subjects.json", "r") as f_:
         available_subjects = json.load(f_)
