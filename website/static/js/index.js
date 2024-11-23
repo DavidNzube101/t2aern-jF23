@@ -169,9 +169,6 @@ async function closePaymentModalAndUpdateHistory(cid) {
         body: data,
     });
 
-    location.reload();
-    
-
     document.getElementById('paymentModal').style.display = 'none';
     location.reload()
 }
