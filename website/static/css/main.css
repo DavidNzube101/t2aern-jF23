@@ -350,9 +350,55 @@ body {
     padding: 48px 0;
     color: rgba(255, 255, 255, 0.6);
 }
-.cid-cont{
+
+.cid-cont {
     font-family: monospace;
     width: 50%;
+}
+
+.payment-container {
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.payment-header {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.amount {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #2a9d8f;
+}
+
+.address {
+    font-size: 1rem;
+    margin-top: 10px;
+    color: #555555;
+    word-break: break-word;
+}
+
+.address-code {
+    font-family: monospace;
+    color: #e76f51;
+}
+.main-button{
+    width: 100px;
+    height: 30px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.grid-container{
+    display: grid;
+    place-items: center;
+    width: 100%;
 }
 /* Animations */
 @keyframes fadeIn {
@@ -375,4 +421,3 @@ body {
         grid-template-columns: 1fr;
     }
 }
-

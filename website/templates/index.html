@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='media/logo.png') }}">
 </head>
+
 <body>
     <!-- Navigation -->
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
@@ -43,31 +45,33 @@
 
             <!-- Upgrades Tab -->
             <div id="upgrades" class="tab-content active">
-                {% if LengthFunc(ASC) != 0  %}
-                    {% for subject, offers in ASC.items() %}
-                        <h1>{{ subject }}</h1>
-                        <div class="upgrades-grid">
-                            
-                            {% for offer_title, offer_detail in offers.items() %}
+                {% if LengthFunc(ASC) != 0 %}
+                {% for subject, offers in ASC.items() %}
+                <h1>{{ subject }}</h1>
+                <div class="upgrades-grid">
 
-                                <div class="upgrade-card">
-                                    <h3>{{ offer_title.capitalize() }}</h3>
-                                    <p>{{ offer_detail[0] }}</p>
-                                    <div class="counter">
-                                        <button onclick="updateCounter(this, -1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">-</button>
-                                        <span>0</span>
-                                        <button onclick="updateCounter(this, 1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">+</button>
-                                    </div>
-                                    <p>Price: ₦ {{ offer_detail[1] }}</p>
-                                </div>
+                    {% for offer_title, offer_detail in offers.items() %}
 
-                            {% endfor %}
-                        
+                        <div class="upgrade-card">
+                            <h3>{{ offer_title.capitalize() }}</h3>
+                            <p>{{ offer_detail[0] }}</p>
+                            <div class="counter">
+                                <button
+                                    onclick="updateCounter(this, -1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">-</button>
+                                <span>0</span>
+                                <button
+                                    onclick="updateCounter(this, 1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">+</button>
+                            </div>
+                            <p>Price: ₦ {{ offer_detail[1] }}</p>
                         </div>
-                        <br>
+
                     {% endfor %}
+
+                </div>
+                <br>
+                {% endfor %}
                 {% else %}
-                    <p>No Upgrades for now</p>
+                <p>No Upgrades for now</p>
                 {% endif %}
             </div>
 
@@ -85,47 +89,52 @@
                             <span class="arrow">▼</span>
                         </button>
                         <div class="faq-answer">
-                            Our platform provides various upgrade options to enhance your exam scores through secure and verified methods. Each upgrade type has different effects and pricing.
+                            Our platform provides various upgrade options to enhance your exam scores through secure and
+                            verified methods. Each upgrade type has different effects and pricing.
                         </div>
                     </div>
-            
+
                     <div class="faq-item">
                         <button class="faq-question">
                             Are the upgrades permanent?
                             <span class="arrow">▼</span>
                         </button>
                         <div class="faq-answer">
-                            Yes, once an upgrade is applied to your exam score, it becomes a permanent modification in the system's records.
+                            Yes, once an upgrade is applied to your exam score, it becomes a permanent modification in
+                            the system's records.
                         </div>
                     </div>
-            
+
                     <div class="faq-item">
                         <button class="faq-question">
                             How secure is the platform?
                             <span class="arrow">▼</span>
                         </button>
                         <div class="faq-answer">
-                            Crypsis employs state-of-the-art encryption and security measures to protect your information and ensure all transactions are completely confidential.
+                            Crypsis employs state-of-the-art encryption and security measures to protect your
+                            information and ensure all transactions are completely confidential.
                         </div>
                     </div>
-            
+
                     <div class="faq-item">
                         <button class="faq-question">
                             What payment methods are accepted?
                             <span class="arrow">▼</span>
                         </button>
                         <div class="faq-answer">
-                            We accept various payment methods including credit cards, cryptocurrency, and secure digital payment platforms.
+                            We accept various payment methods including credit cards, cryptocurrency, and secure digital
+                            payment platforms.
                         </div>
                     </div>
-            
+
                     <div class="faq-item">
                         <button class="faq-question">
                             How long does it take to process an upgrade?
                             <span class="arrow">▼</span>
                         </button>
                         <div class="faq-answer">
-                            Most upgrades are processed and applied within 24-48 hours of successful payment verification.
+                            Most upgrades are processed and applied within 24-48 hours of successful payment
+                            verification.
                         </div>
                     </div>
                 </div>
@@ -142,6 +151,9 @@
                     <span class="cart-total-label">Total</span>
                     <span class="cart-total-amount">₦ <span id="cart-total">0</span></span>
                 </div>
+                <div class="grid-container">
+                    <button onclick="showPaymentModal()" class="main-button">Pay</button>
+                </div>
             </div>
 
             <div id="profile" class="tab-content">
@@ -157,15 +169,16 @@
                 </div>
                 <div class="cid-cont-2">
                     {% if SCHOOL_ID == "" %}
-                        <form action="/update-school-id" method="POST">
-                            <input type="hidden" name="CRYPSIS_ID" value="{{ CRYPSIS_ID }}">
-                            <input type="text" name="school_id" placeholder="Your School ID goes here (Important! can't be changed)">
-                            <button type="submit">Add</button>
-                        </form>
+                    <form action="/update-school-id" method="POST">
+                        <input type="hidden" name="CRYPSIS_ID" value="{{ CRYPSIS_ID }}">
+                        <input type="text" name="school_id"
+                            placeholder="Your School ID goes here (Important! can't be changed)">
+                        <button type="submit">Add</button>
+                    </form>
                     {% endif %}
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -174,11 +187,33 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h2>About Crypsis (v1.2)</h2>
-            <p>Crypsis is an innovative platform designed to help students enhance their exam scores through various upgrade options. Our system provides secure and reliable score enhancement services.</p>
+            <p>Crypsis is an innovative platform designed to help students enhance their exam scores through various
+                upgrade options. Our system provides secure and reliable score enhancement services.</p>
         </div>
     </div>
 
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-<!-- <script src="{{ url_for('static', filename='js/cart.js') }}"></script> -->
+    <!-- payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <div class="payment-container">
+                <div class="payment-header">Pay <span class="amount"></span> to this address:</div>
+                <div class="address">
+                    <span class="address-code"></span>
+                </div>
+                <br>
+                <br>
+                <button class="main-button" onclick="closePaymentModalAndUpdateHistory()">I've paid</button>
+                <br>
+                <br>
+                <small>Please ensure that you send the exact amount "<span class="amount-two"></span>" to the address provided above. Otherwise, your upgrade will not be successful.</small>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/cart.js') }}"></script> -->
 </body>
+
 </html>

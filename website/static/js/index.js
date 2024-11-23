@@ -1,3 +1,6 @@
+const conversionRate = 1694.90;
+
+
 // Tab Functionality
 function showTab(tabId) {
     // Hide all tab contents
@@ -33,6 +36,32 @@ function showModal() {
 function closeModal() {
     document.getElementById('aboutModal').style.display = 'none';
 }
+
+// Payment Modal Functionality
+function showPaymentModal() {
+    currency = "USDT"
+    modal = document.getElementById('paymentModal')
+    modal.style.display = 'block'
+    modal_price = modal.querySelector(".amount")
+    modal_price_two = modal.querySelector(".amount-two")
+    modal_address_code = modal.querySelector(".address-code")
+    modal_address_code.textContent = "0x309632422dA612acA9E8fBF790A92D8F599D18e9"
+    modal_price.textContent = `${document.querySelector("#cart-total").textContent} ${currency}`
+
+
+    nairaAmount = parseFloat((document.querySelector("#cart-total").textContent).replace(/,/g, ""))
+    console.log(nairaAmount, conversionRate);
+    const usdtAmount = (nairaAmount / conversionRate).toFixed(7);
+    modal_price.textContent = `${usdtAmount} ${currency}`
+    modal_price_two.textContent = usdtAmount
+
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+}
+
+
 
 // Close modal when clicking outside
 window.onclick = function (event) {
@@ -125,3 +154,32 @@ function updateCartDisplay() {
 
 // Initialize cart display
 updateCartDisplay();
+
+
+
+async function closePaymentModalAndUpdateHistory(cid) {
+    
+    const data = new FormData();
+    data.append("amount", `${(parseFloat((document.querySelector("#cart-total").textContent).replace(/,/g, "")) / conversionRate).toFixed(7)}`)
+    data.append("crypsis_id", cid);
+    data.append("upgrade_ids", `['4efc342121', '1a9b8cde34', '6igh564343']`);
+
+    try {
+        const response = await fetch('/add-upgrade-request', {
+            method: 'POST',
+            body: data,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        location.reload();
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to mark the upgrade as done. Please try again.");
+    }
+
+    document.getElementById('paymentModal').style.display = 'none';
+    location.reload()
+}

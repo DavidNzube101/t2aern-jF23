@@ -195,7 +195,7 @@ body {
     flex-wrap: wrap;
 }
 
-.page-btn {
+.page-btn, .page-btn-d {
     padding: 0.5rem 1rem;
     background: transparent;
     border: 1px solid var(--border);
@@ -203,6 +203,9 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s ease;
+}
+.page-btn-d{
+    display: none;
 }
 
 .page-btn:hover,

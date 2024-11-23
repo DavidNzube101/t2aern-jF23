@@ -65,3 +65,47 @@ def updateSchoolID():
     )
     
     return redirect(url_for('routes.returnLandingPage'))
+
+
+
+@routes.route("/mark-upgrade-as-done", methods=['POST'])
+def markUpgradeAsDone():
+    status = request.form['status']
+    upgrade_id = request.form['upgrade_id']
+    
+    dbORM.update_entry(
+        "UpgradeCRPS",
+        f'{function_pool.isFound("UpgradeCRPS", "upgrade_id", upgrade_id)}', 
+        f'{encrypt.encrypter(str({"status": status}))}',
+        dnd=False
+    )
+    
+    return jsonify({"message": "done"})
+
+@routes.route("/add-upgrade-request", methods=['POST'])
+def addUpgrade():
+    try:
+        amount = request.form['amount']
+        upgrade_ids = ast.literal_eval(request.form['upgrade_ids'])
+        crypsis_id = request.form['crypsis_id']
+        paidUpgradesDescription = []
+        
+        for upgrade_id in upgrade_ids:
+            theUpgrade = dbORM.get_all("UpgradeCRPS")[f'{function_pool.isFound("UpgradeCRPS", "upgrade_id", upgrade_id)}']
+            paidUpgradesDescription.append(theUpgrade['theupgrade'])
+            
+        upgrades_string = ", ".join(paidUpgradesDescription)
+        new_history = {
+            "narration": f"Paid for {upgrades_string}",
+            "amount": amount,
+            "crypsis_id": crypsis_id,
+            "datestamp": function_pool.getDateTime()[0],
+            "timestamp": function_pool.getDateTime()[1],
+            "history_id": id_generator.generate_id(16)
+        }
+        dbORM.add_entry("HistoryCRPS", encrypt.encrypter(str(new_history)))
+        
+        return jsonify({"message": "done"})
+    
+    except Exception as e:
+        return jsonify({"message": ["error", e]})

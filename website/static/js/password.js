@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        checkPassword
+    }
+
     // Attach the function to the global scope
     window.checkPassword = checkPassword;
+
+    
 });

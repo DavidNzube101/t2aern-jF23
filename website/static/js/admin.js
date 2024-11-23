@@ -63,3 +63,25 @@ drawer.addEventListener('touchend', (e) => {
         drawer.style.bottom = '0';
     }
 });
+
+async function markUpgradeAsDone(uid, status) {
+    const data = new FormData();
+    data.append("status", status || "completed");
+    data.append("upgrade_id", uid);
+
+    try {
+        const response = await fetch('/mark-upgrade-as-done', {
+            method: 'POST',
+            body: data,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        location.reload();
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to mark the upgrade as done. Please try again.");
+    }
+}

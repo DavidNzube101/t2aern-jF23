@@ -32,7 +32,11 @@
                 </div>
                 <span class="status status-{{ upgrade.status }}">{{ upgrade.status.capitalize() }}</span>
                 <article class="upgrade-text">{{ upgrade.theupgrade }}</article>
-                <button onclick="openDrawer('{{ upgrade.upgrade_id }}')" class="page-btn">View Details</button>
+                {% if upgrade.status == "new" %}
+                    <button onclick="openDrawer('{{ upgrade.upgrade_id }}')" class="page-btn">View Details</button>
+                {% else %}
+                    <button onclick="openDrawer('{{ upgrade.upgrade_id }}')" class="page-btn page-btn-d">>View Details</button>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -148,6 +152,10 @@
                     <p>School ID: ${schoolId}</p>
                     <p>Status: ${status}</p>
                     <p>Upgrade: ${upgrade}</p>
+                    <br>
+                    <br>
+                    <br>
+                    <button onclick="markUpgradeAsDone('${id}', 'completed')" class="page-btn">Done</button>
                 `;
             } else {
                 content.innerHTML = '<p>Upgrade details not found.</p>';
