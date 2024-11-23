@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypsis Admin Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='media/logo.png') }}">
 
 </head>
 <body>
@@ -14,41 +15,26 @@
         </header>
 
         <div class="tabs">
-            <button class="tab active">New <span class="tab-count">13</span></button>
-            <button class="tab">Completed <span class="tab-count">17</span></button>
+            <button class="tab active" data-tab="new">New <span class="tab-count" id="new-count">0</span></button>
+            <button class="tab" data-tab="completed">Completed <span class="tab-count" id="completed-count">0</span></button>
         </div>
 
-        <div class="upgrade-list">
-            <!-- Upgrade Items -->
-            <div class="upgrade-item">
+        <div class="upgrade-list" id="upgrade-list">
+            {% for key, upgrade in UPGRADES.items() %}
+            <div class="upgrade-item" data-status="{{ upgrade.status }}" data-id="{{ upgrade.upgrade_id }}">
                 <div class="checkbox-wrapper">
-                    <input type="checkbox" class="checkbox" id="upgrade1">
+                    <input type="checkbox" class="checkbox" id="{{ upgrade.upgrade_id }}" {% if upgrade.status == 'completed' %}checked{% endif %}>
                     <span class="checkmark"></span>
                 </div>
                 <div>
-                    <h3>Mark Adder Upgrade</h3>
-                    <p>Student ID: STU001</p>
+                    <h3>{{ upgrade.name }}</h3>
+                    <p>School ID: {{ upgrade.school_id }}</p>
                 </div>
-                <span class="status status-pending">Pending</span>
-                <span>$150.00</span>
-                <button onclick="openDrawer('upgrade1')" class="page-btn">View Details</button>
+                <span class="status status-{{ upgrade.status }}">{{ upgrade.status.capitalize() }}</span>
+                <article class="upgrade-text">{{ upgrade.theupgrade }}</article>
+                <button onclick="openDrawer('{{ upgrade.upgrade_id }}')" class="page-btn">View Details</button>
             </div>
-
-            <div class="upgrade-item">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="checkbox" id="upgrade2">
-                    <span class="checkmark"></span>
-                </div>
-                <div>
-                    <h3>Grade Booster</h3>
-                    <p>Student ID: STU002</p>
-                </div>
-                <span class="status status-pending">Pending</span>
-                <span>$250.00</span>
-                <button onclick="openDrawer('upgrade2')" class="page-btn">View Details</button>
-            </div>
-
-            <!-- More upgrade items... -->
+            {% endfor %}
         </div>
 
         <div class="pagination">
@@ -75,6 +61,95 @@
         </div>
     </div>
 
-<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <!-- Include your admin.js file if it contains necessary functions -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+    <!-- Inline JavaScript for dashboard functionality -->
+    <script>
+        function updateTabCounts() {
+            const newCount = document.querySelectorAll('.upgrade-item[data-status="new"]').length;
+            const completedCount = document.querySelectorAll('.upgrade-item[data-status="completed"]').length;
+
+            document.getElementById('new-count').textContent = newCount;
+            document.getElementById('completed-count').textContent = completedCount;
+        }
+
+        function switchTab(status) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            const activeTab = document.querySelector(`.tab[data-tab="${status}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+                document.querySelectorAll('.upgrade-item').forEach(item => {
+                    if (item.getAttribute('data-status') === status) {
+                        item.style.display = 'grid';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            } else {
+                console.error(`Tab with data-tab="${status}" not found`);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const status = tab.getAttribute('data-tab');
+                    switchTab(status);
+                });
+            });
+
+            document.addEventListener('change', function(e) {
+                if (e.target && e.target.classList.contains('checkbox')) {
+                    const upgradeItem = e.target.closest('.upgrade-item');
+                    if (upgradeItem) {
+                        const newStatus = e.target.checked ? 'completed' : 'new';
+                        upgradeItem.setAttribute('data-status', newStatus);
+                        upgradeItem.querySelector('.status').textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+                        upgradeItem.querySelector('.status').className = `status status-${newStatus}`;
+                        updateTabCounts();
+                        switchTab(newStatus);
+                    }
+                }
+            });
+
+            // Initial setup
+            updateTabCounts();
+            switchTab('new');
+        });
+
+        function openDrawer(id) {
+            const drawer = document.getElementById('drawer');
+            const content = document.getElementById('drawerContent');
+            
+            // Find the upgrade data
+            const upgradeItem = document.querySelector(`.upgrade-item[data-id="${id}"]`);
+            if (upgradeItem) {
+                const name = upgradeItem.querySelector('h3').textContent;
+                const schoolId = upgradeItem.querySelector('p').textContent.split(': ')[1];
+                const status = upgradeItem.querySelector('.status').textContent;
+                const upgrade = upgradeItem.querySelector('.upgrade-text').textContent;
+
+                // Populate drawer content
+                content.innerHTML = `
+                    <h3>Upgrade ID: ${id}</h3>
+                    <p>Name: ${name}</p>
+                    <p>School ID: ${schoolId}</p>
+                    <p>Status: ${status}</p>
+                    <p>Upgrade: ${upgrade}</p>
+                `;
+            } else {
+                content.innerHTML = '<p>Upgrade details not found.</p>';
+            }
+            
+            drawer.classList.add('open');
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('drawer');
+            drawer.classList.remove('open');
+        }
+    </script>
 </body>
 </html>
+

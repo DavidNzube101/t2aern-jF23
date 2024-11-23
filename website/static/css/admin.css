@@ -226,3 +226,22 @@ body {
     background: rgba(40, 167, 69, 0.2);
     color: #28a745;
 }
+
+.drawer {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 80vh;
+    background: var(--secondary);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    transition: bottom 0.3s ease;
+    z-index: 1000;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.drawer.open {
+    bottom: 0;
+}

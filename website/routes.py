@@ -38,12 +38,15 @@ def returnDashBoard(session_id):
     payload['LAT'] = function_pool.checkLoginAndLogin(client_ip)['latitude']
     payload['LNG'] = function_pool.checkLoginAndLogin(client_ip)['longitude']
     
-    print("Location: ", geocoder.ip('me').city, geocoder.ip('me').ok, geocoder.ip('me').ip)
+    
     
     return render_template("index.html", **payload)
 
 
 @routes.route('/s14xyu14xy14xyp14xye14xyr14xyu14xys14xye14xyr14xy14xy')
 def returnsAdminDashBoard():
+    payload = function_pool.template_payload()
     
-    return render_template("admin.html")
+    payload['UPGRADES'] = dbORM.get_all("UpgradeCRPS")
+    
+    return render_template("admin.html", **payload)

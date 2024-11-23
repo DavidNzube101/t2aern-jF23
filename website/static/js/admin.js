@@ -22,14 +22,6 @@ function closeDrawer() {
     drawer.classList.remove('open');
 }
 
-// Tab switching
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-    });
-});
-
 // Checkbox form submission
 document.querySelectorAll('.checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', (e) => {
