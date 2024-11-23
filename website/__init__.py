@@ -22,5 +22,3 @@ def initialize_app():
     
     
     return app
-
-app = initialize_app()
