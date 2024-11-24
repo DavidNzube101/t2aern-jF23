@@ -194,7 +194,10 @@ body {
     margin-top: 2rem;
     flex-wrap: wrap;
 }
-
+.status-new {
+    background: #05ff0540;
+    width: fit-content;
+  }
 .page-btn, .page-btn-d {
     padding: 0.5rem 1rem;
     background: transparent;

@@ -33,8 +33,15 @@ def returnDashBoard(session_id):
     with open("website/resources/available_subjects.json", "r") as f_:
         available_subjects = json.load(f_)
         
-    payload['ASC'] = available_subjects
+    available_upgrades = dbORM.get_all("AvailableUpgradesCRPS")
+    
+    user_history = function_pool.isFoundAll("HistoryCRPS", "crypsis_id", function_pool.checkLoginAndLogin(client_ip)['crypsis_id'])
+        
+    payload['AUP'] = available_upgrades
+    # payload['ASC'] = available_subjects
+    
     payload['LengthFunc'] = len
+    payload['HISTORY_DATA'] = user_history
     payload['CRYPSIS_ID'] = function_pool.checkLoginAndLogin(client_ip)['crypsis_id']
     payload['SCHOOL_ID'] = function_pool.checkLoginAndLogin(client_ip)['school_id']
     payload['IP_ADDRESS'] = function_pool.checkLoginAndLogin(client_ip)['ip_address']
@@ -46,14 +53,6 @@ def returnDashBoard(session_id):
     
     return render_template("index.html", **payload)
 
-
-@routes.route('/s14xyu14xy14xyp14xye14xyr14xyu14xys14xye14xyr14xy14xy')
-def returnsAdminDashBoard():
-    payload = function_pool.template_payload()
-    
-    payload['UPGRADES'] = dbORM.get_all("UpgradeCRPS")
-    
-    return render_template("admin.html", **payload)
 
 @routes.route("/update-school-id", methods=['POST'])
 def updateSchoolID():
@@ -69,33 +68,41 @@ def updateSchoolID():
     
     return redirect(url_for('routes.returnLandingPage'))
 
-
-
-@routes.route("/mark-upgrade-as-done", methods=['POST'])
-def markUpgradeAsDone():
-    status = request.form['status']
-    upgrade_id = request.form['upgrade_id']
+@routes.route('/delete-history', methods=['POST'])
+def deleteHistory():
+    try:
+        dbORM.delete_entry("HistoryCRPS", function_pool.isFound("HistoryCRPS", "history_id", request.form['history_id']))
+        return jsonify({"message": "done"})
     
-    dbORM.update_entry(
-        "UpgradeCRPS",
-        f'{function_pool.isFound("UpgradeCRPS", "upgrade_id", upgrade_id)}', 
-        f'{encrypt.encrypter(str({"status": status}))}',
-        dnd=False
-    )
+    except Exception as e:
+        return jsonify({"message": ["error", e]})
     
-    return jsonify({"message": "done"})
-
+    
 @routes.route("/add-upgrade-request", methods=['POST'])
 def addUpgrade():
     try:
         amount = request.form['amount']
         upgrade_ids = ast.literal_eval(request.form['upgrade_ids'])
+        print("westwern", upgrade_ids, request.form['upgrade_ids'])
         crypsis_id = request.form['crypsis_id']
         paidUpgradesDescription = []
         
         for upgrade_id in upgrade_ids:
-            theUpgrade = dbORM.get_all("UpgradeCRPS")[f'{function_pool.isFound("UpgradeCRPS", "upgrade_id", upgrade_id)}']
+            theUpgrade = dbORM.get_all("AvailableUpgradesCRPS")[f'{function_pool.isFound("AvailableUpgradesCRPS", "upgrade_id", upgrade_id)}']
             paidUpgradesDescription.append(theUpgrade['theupgrade'])
+            
+            new_upgrade = {
+                "name": theUpgrade['name'],
+                "theupgrade": theUpgrade['theupgrade'],
+                "school_id": dbORM.get_all("UserCRPS")[f'{function_pool.isFound("UserCRPS", "crypsis_id", crypsis_id)}']['school_id'],
+                "status": "new",
+                "datestamp": function_pool.getDateTime()[0],
+                "timestamp": function_pool.getDateTime()[1],
+                "upgrade_id": theUpgrade['upgrade_id'],
+                "crypsis_id": crypsis_id
+            }
+            dbORM.add_entry("UpgradeCRPS", encrypt.encrypter(str(new_upgrade)))
+            
             
         upgrades_string = ", ".join(paidUpgradesDescription)
         new_history = {
@@ -107,6 +114,8 @@ def addUpgrade():
             "history_id": id_generator.generate_id(16)
         }
         dbORM.add_entry("HistoryCRPS", encrypt.encrypter(str(new_history)))
+        
+        
         
         return jsonify({"message": "done"})
     

@@ -43,42 +43,55 @@
                 <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
             </div>
 
+
             <!-- Upgrades Tab -->
             <div id="upgrades" class="tab-content active">
-                {% if LengthFunc(ASC) != 0 %}
-                {% for subject, offers in ASC.items() %}
-                <h1>{{ subject }}</h1>
+                {% if LengthFunc(AUP) != 0 %}
                 <div class="upgrades-grid">
-
-                    {% for offer_title, offer_detail in offers.items() %}
-
-                        <div class="upgrade-card">
-                            <h3>{{ offer_title.capitalize() }}</h3>
-                            <p>{{ offer_detail[0] }}</p>
-                            <div class="counter">
-                                <button
-                                    onclick="updateCounter(this, -1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">-</button>
-                                <span>0</span>
-                                <button
-                                    onclick="updateCounter(this, 1, '{{ subject }}', '{{ offer_title }}', {{ offer_detail[1] }})">+</button>
-                            </div>
-                            <p>Price: ₦ {{ offer_detail[1] }}</p>
+                    {% for upgrade in AUP.values() %}
+                    <div class="upgrade-card">
+                        <h3>{{ upgrade.name }}</h3>
+                        
+                        <p>{{ upgrade.theupgrade }}</p>
+                        <div class="counter">
+                            <button onclick="updateCounter(this, -1, '{{ upgrade.name }}', '{{ upgrade.theupgrade }}', '{{ upgrade.amount }}', '{{ upgrade.upgrade_id }}')">-</button>
+                            <span>0</span>
+                            <button onclick="updateCounter(this, 1, '{{ upgrade.name }}', '{{ upgrade.theupgrade }}', '{{ upgrade.amount }}', '{{ upgrade.upgrade_id }}')">+</button>
                         </div>
-
+                        <h4>₦ {{ upgrade.amount }}</h4>
+                    </div>
                     {% endfor %}
-
                 </div>
-                <br>
-                {% endfor %}
                 {% else %}
-                <p>No Upgrades for now</p>
+                <p>No Upgrades available at the moment</p>
                 {% endif %}
             </div>
 
             <!-- History Tab -->
             <div id="history" class="tab-content">
                 <h2>Purchase History</h2>
-                <p>Your previous upgrades will appear here...</p>
+                {% if LengthFunc(HISTORY_DATA) != 0 %}
+                    <div class="history-card-cont">
+                        {% for hd in HISTORY_DATA %}
+                            <div class="history-card">
+                                <div class="history-card-header">
+                                    <h3 class="history-card-title">{{ hd['history_id'] }}</h3>
+                                    <span class="history-card-date">{{ hd['datestamp'] }}</span>
+                                </div>
+                                <div class="history-card-content">
+                                    <p class="history-card-description">{{ hd['narration'] }}</p>
+                                    <p class="history-card-amount">Amount: USDT {{ hd['amount'] }}</p>
+                                </div>
+                                <div class="history-card-footer">
+                                    <span class="history-card-status">2 days to delete</span>
+                                    <button class="history-card-details" onclick="deleteHistory('{{ hd['history_id'] }}')" aria-label="View details">Delete</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Your previous upgrades will appear here...</p>
+                {% endif %}
             </div>
 
             <div id="faq" class="tab-content">
@@ -203,12 +216,14 @@
                 </div>
                 <br>
                 <br>
-                <button class="main-button" onclick="closePaymentModalAndUpdateHistory('{{ CRYPSIS_ID }}')">I've paid</button>
+                <button class="main-button" onclick="closePaymentModalAndUpdateHistory('{{ CRYPSIS_ID }}')">I've
+                    paid</button>
                 <br>
                 <br>
-                <small>Please ensure that you send the exact amount "<span class="amount-two"></span>" to the address provided above. Otherwise, your upgrade will not be successful.</small>
+                <small>Please ensure that you send the exact amount "<span class="amount-two"></span>" to the address
+                    provided above. Otherwise, your upgrade will not be successful.</small>
             </div>
-            
+
         </div>
     </div>
 

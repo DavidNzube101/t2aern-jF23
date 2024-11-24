@@ -1,9 +1,9 @@
 {
     "MTH102": {
-        "mark adder (+15)": ["add marks to your exam score", "11000"],
-        "solution fill": ["fill your manual", "7000" ]  
+        "mark adder (+15)": ["add marks to your exam score", "11000", "1a9b8cde34", "2024-11-23", "12:14:19", "new"],
+        "solution fill": ["fill your manual", "7000", "4efc342121", "2024-11-23", "22:44:39", "completed"]  
     },
     "STA112": {
-        "grade (B)": ["get your instant b grade", "7000"]
+        "grade (B)": ["get your instant b grade", "7000", "5fgh453232", "2024-11-23", "09:21:20", "new"]
     }
 }

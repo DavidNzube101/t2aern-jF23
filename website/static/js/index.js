@@ -100,23 +100,24 @@ function formatPrice(price) {
     }).format(price);
 }
 
-function updateCounter(button, change, subject, offerTitle, price) {
+function updateCounter(button, change, subject, offerTitle, price, upgradeId) {
     const counterSpan = button.parentElement.querySelector('span');
     let count = parseInt(counterSpan.textContent);
     count = Math.max(0, count + change);
     counterSpan.textContent = count;
 
-    updateCart(subject, offerTitle, count, price);
+    updateCart(subject, offerTitle, count, price, upgradeId);
 }
 
-function updateCart(subject, offerTitle, count, price) {
+function updateCart(subject, offerTitle, count, price, upgradeId) {
     const key = `${subject}-${offerTitle}`;
     if (count > 0) {
-        cart[key] = { subject, offerTitle, count, price };
+        cart[key] = { subject, offerTitle, count, price, upgradeId };
     } else {
         delete cart[key];
     }
     updateCartDisplay();
+    console.log("Current cart:", cart); // Debug: Log the cart after each update
 }
 
 function updateCartDisplay() {
@@ -152,23 +153,62 @@ function updateCartDisplay() {
     document.getElementById('cart-total').textContent = formatPrice(total);
 }
 
+
+async function closePaymentModalAndUpdateHistory(cid) {
+    const data = new FormData();
+    const cartTotal = document.querySelector("#cart-total").textContent;
+    const amount = (parseFloat(cartTotal.replace(/,/g, "")) / conversionRate).toFixed(7);
+    
+    data.append("amount", amount);
+    data.append("crypsis_id", cid);
+
+    // Fetch upgrade IDs from the cart items
+    const upgradeIds = Object.values(cart).map(item => item.upgradeId).filter(id => id !== undefined);
+    console.log("Upgrade IDs before filtering:", Object.values(cart).map(item => item.upgradeId)); // Debug: Log all upgradeIds before filtering
+    console.log("Filtered Upgrade IDs:", upgradeIds);  // Log the filtered upgrade IDs
+    data.append("upgrade_ids", JSON.stringify(upgradeIds));
+
+    console.log("Sending data to server:", {
+        amount,
+        crypsis_id: cid,
+        upgrade_ids: upgradeIds
+    });
+
+    try {
+        const response = await fetch('/add-upgrade-request', {
+            method: 'POST',
+            body: data,
+        });
+
+        if (response.ok) {
+            console.log("Upgrade request added successfully");
+            document.getElementById('paymentModal').style.display = 'none';
+            location.reload();
+        } else {
+            console.error("Failed to add upgrade request");
+            // Handle error (e.g., show error message to user)
+        }
+    } catch (error) {
+        console.error("Error sending upgrade request:", error);
+        // Handle network errors
+    }
+}
+
 // Initialize cart display
 updateCartDisplay();
 
-
-
-async function closePaymentModalAndUpdateHistory(cid) {
-    
-    const data = new FormData();
-    data.append("amount", `${(parseFloat((document.querySelector("#cart-total").textContent).replace(/,/g, "")) / conversionRate).toFixed(7)}`)
-    data.append("crypsis_id", cid);
-    data.append("upgrade_ids", `['4efc342121', '1a9b8cde34', '6igh564343']`);
-
-    const response = await fetch('/add-upgrade-request', {
+async function deleteHistory(hid){
+    data = new FormData()
+    data.append("history_id", hid)
+    const response = await fetch('/delete-history', {
         method: 'POST',
         body: data,
     });
 
-    document.getElementById('paymentModal').style.display = 'none';
-    location.reload()
+    if (response.ok) {
+        console.log("Upgrade request added successfully");
+        location.reload();
+    } else {
+        console.error("Failed to add upgrade request");
+    }
 }
