@@ -138,9 +138,9 @@ window.addEventListener('resize', () => {
 window.addEventListener('deviceorientation', handleOrientation);
 
 document.querySelector('.cta-button').addEventListener('click', async () => {
-    if (!audioContext) {
-        await initAudio();
-    }
+    // if (!audioContext) {
+    //     await initAudio();
+    // }
     gyroEnabled = true;
 });
 

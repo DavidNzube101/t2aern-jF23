@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('passwordModal');
-    const correctPassword = "09erdm";
+    const correctPassword = "09erdm%%ret*2";
 
     // Disable interaction with the rest of the page
     document.body.style.overflow = "hidden";
